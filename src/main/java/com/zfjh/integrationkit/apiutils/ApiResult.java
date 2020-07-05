@@ -12,7 +12,6 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.ALWAYS)
 public class ApiResult<T> implements Serializable {
 
-
     public static ApiResult success() {
         return new ApiResult(true, "200", "success");
     }
@@ -31,6 +30,16 @@ public class ApiResult<T> implements Serializable {
 
     public static ApiResult paramError(String message) {
         return new ApiResult(true, "400", message);
+    }
+
+    public static ApiResult of(String code, String message, Object data) {
+        return new ApiResult(code,message,data);
+    }
+
+    public ApiResult(String code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
     }
 
     public ApiResult() {
@@ -55,7 +64,6 @@ public class ApiResult<T> implements Serializable {
     }
 
     private static final long serialVersionUID = -2402122704294916086L;
-
 
     @ApiModelProperty("是否成功")
     private Boolean success = Boolean.TRUE;
@@ -101,10 +109,11 @@ public class ApiResult<T> implements Serializable {
     @Override
     public String toString() {
         return "ApiResult{" +
-        "success=" + success +
-        ", code='" + code + '\'' +
-        ", message='" + message + '\'' +
-        ", data=" + (null == data ? "null" : data.toString()) +
-        '}';
+                "success=" + success +
+                ", code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", data=" + (null == data ? "null" : data.toString()) +
+                '}';
     }
+
 }
